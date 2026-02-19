@@ -15,21 +15,22 @@ export const ComponentKeySchema = z.enum([
 export const MixtureKeySchema = ComponentKeySchema;
 export const BinaryMixtureKeySchema = z.enum(["Name", "Formula"]);
 
-export const ComponentSchema = z
-  .object({
-    name: z.string(),
-    formula: z.string(),
-    state: ComponentStateSchema,
-    mole_fraction: z.number().default(1),
-  })
-  .passthrough();
+// NOTE: Component Schema
+export const ComponentSchema = z.looseObject({
+  name: z.string(),
+  formula: z.string(),
+  state: ComponentStateSchema,
+  mole_fraction: z.number().default(1),
+});
 
+// NOTE: Component Identity Schema
 export const ComponentIdentitySchema = z.object({
   name_state: z.string(),
   formula_state: z.string(),
   name_formula: z.string(),
 });
 
+// SECTION: Types
 export type ComponentState = z.infer<typeof ComponentStateSchema>;
 export type ComponentKey = z.infer<typeof ComponentKeySchema>;
 export type MixtureKey = z.infer<typeof MixtureKeySchema>;

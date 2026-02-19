@@ -23,6 +23,14 @@ const CaseTransformSchema = z.union([
   z.null(),
 ]);
 
+
+/**
+ * Creates a component identity object with multiple identifier formats.
+ * Combines component name, formula, and state in different arrangements.
+ * @param component - The component to create an identity for
+ * @param separator_symbol - The separator to use between components (default: "-")
+ * @returns ComponentIdentity object with name_state, formula_state, and name_formula identifiers
+ */
 export function create_component_id(
   component: ComponentInput,
   separator_symbol = "-",
@@ -41,6 +49,16 @@ export function create_component_id(
   });
 }
 
+/**
+ * Generates a component identifier string based on the specified key and formatting options.
+ * Supports multiple identifier formats and case transformations.
+ * @param component - The component to generate an identifier for
+ * @param component_key - The key format to use (e.g., "Name-State", "Formula-State", "Name", "Formula")
+ * @param separator_symbol - The separator to use between components (default: "-")
+ * @param case_value - Case transformation to apply: 'lower', 'upper', or null for no change (default: null)
+ * @returns A formatted component identifier string
+ * @throws Error if component_key is invalid or case_value is invalid
+ */
 export function set_component_id(
   component: ComponentInput,
   component_key: ComponentKey,
@@ -98,6 +116,17 @@ export function set_component_id(
   return component_id;
 }
 
+/**
+ * Creates a mixture identifier for two components.
+ * Components are sorted alphabetically before joining with the delimiter.
+ * @param component_1 - The first component in the mixture
+ * @param component_2 - The second component in the mixture
+ * @param mixture_key - The key to use for identification: "Name" or "Formula" (default: "Name")
+ * @param delimiter - The delimiter to use between components (default: "|")
+ * @returns A sorted, delimited mixture identifier string
+ * @throws TypeError if delimiter is not a string
+ * @throws Error if mixture_key is invalid
+ */
 export function create_binary_mixture_id(
   component_1: ComponentInput,
   component_2: ComponentInput,
@@ -123,6 +152,17 @@ export function create_binary_mixture_id(
   return [comp1_id, comp2_id].sort().join(parsed_delimiter).trim();
 }
 
+/**
+ * Creates a mixture identifier for multiple components.
+ * Combines component identifiers based on the specified key, sorts them, and joins with delimiter.
+ * @param components - Array of components in the mixture
+ * @param mixture_key - The key format to use (e.g., "Name", "Formula", "Name-State", "Formula-State")
+ * @param delimiter - The delimiter to use between components (default: "|")
+ * @param case_value - Case transformation to apply: 'lower', 'upper', or null for no change (default: null)
+ * @returns A sorted, delimited mixture identifier string
+ * @throws Error if components array is empty or mixture_key is invalid
+ * @throws TypeError if delimiter is not a string
+ */
 export function create_mixture_id(
   components: ComponentInput[],
   mixture_key: MixtureKey = "Name",
@@ -181,6 +221,14 @@ export function create_mixture_id(
   return mixture_id;
 }
 
+/**
+ * Updates the state of a component while preserving all other properties.
+ * Mutates the original object reference to maintain Python parity.
+ * @param component - The component to update
+ * @param state - The new state to set (must be one of: 'g', 'l', 's', 'aq')
+ * @returns The modified component with updated state
+ * @throws Error if state is invalid
+ */
 export function set_component_state(
   component: ComponentInput,
   state: z.infer<typeof ComponentStateSchema>,
@@ -192,6 +240,14 @@ export function set_component_state(
   return Object.assign(component, parsed_component, { state }) as Component;
 }
 
+/**
+ * Updates the state of multiple components while preserving all other properties.
+ * Applies the same state to all components in the array.
+ * @param components - Array of components to update
+ * @param state - The new state to set (must be one of: 'g', 'l', 's', 'aq')
+ * @returns Array of modified components with updated state
+ * @throws Error if state is invalid
+ */
 export function set_components_state(
   components: ComponentInput[],
   state: z.infer<typeof ComponentStateSchema>,
