@@ -46,3 +46,6 @@ private/
 
 # tgz files
 *.tgz
+
+# private
+private/
