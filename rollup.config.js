@@ -10,7 +10,7 @@ export default [
     external,
     plugins: [
       resolve({ browser: false }),
-      typescript({ tsconfig: "./tsconfig.json", declaration: false }),
+      typescript({ tsconfig: "./tsconfig.json", declaration: false, declarationMap: false }),
     ],
     output: [
       { file: "dist/index.mjs", format: "es", sourcemap: true },
