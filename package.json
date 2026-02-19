@@ -10,6 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/sinagilassi/MoziThermoDB-Settings.git"
   },
+  "keywords": [
+    "MoziThermoDB",
+    "Thermodynamics"
+  ],
   "license": "Apache-2.0",
   "author": "Sina Gilassi",
   "type": "module",
