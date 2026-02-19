@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ERRORS } from "../core/errors";
+import { ERRORS } from "@/core/errors";
 import {
   BinaryMixtureKeySchema,
   ComponentIdentitySchema,
