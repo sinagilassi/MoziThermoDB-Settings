@@ -1,0 +1,120 @@
+{
+    // Debug any TypeScript example file with ts-node/esm. Select a file via input prompt.
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "🟡 Debug Current JS File",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "console": "integratedTerminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "presentation": {
+                "hidden": false,
+                "group": "debug",
+                "order": 2
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "🔵 Debug Current TS File",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "console": "integratedTerminal",
+            "runtimeExecutable": "tsx",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "presentation": {
+                "hidden": false,
+                "group": "debug",
+                "order": 3
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug example (ts-node/esm)",
+            "program": "${workspaceFolder}/examples/${input:exampleFile}",
+            "cwd": "${workspaceFolder}",
+            "runtimeArgs": [
+                "--loader",
+                "ts-node/esm",
+                "--experimental-specifier-resolution=node"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "env": {
+                "NODE_OPTIONS": "--enable-source-maps"
+            },
+            "outFiles": [
+                "${workspaceFolder}/dist/**/*.js",
+                "${workspaceFolder}/examples/**/*.js",
+                "${workspaceFolder}/src/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Current TS File",
+            "program": "${file}",
+            "cwd": "${workspaceFolder}",
+            "runtimeArgs": [
+                "--loader",
+                "ts-node/esm",
+                "--experimental-specifier-resolution=node"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug example (tsx)",
+            "program": "${workspaceFolder}/examples/${input:exampleFile}",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "tsx",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Current TS File (tsx)",
+            "program": "${file}",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "tsx",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug current JS file (anywhere)",
+            "program": "${file}",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        }
+    ],
+    "inputs": [
+        {
+            "id": "exampleFile",
+            "type": "pickString",
+            "description": "Example file to debug (relative to examples/)",
+            "options": [
+                "appUsage.ts"
+            ]
+        }
+    ]
+}
