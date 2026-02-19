@@ -37,15 +37,16 @@
     "pack:make": "npm pack"
   },
   "dependencies": {
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/parser": "^8.56.0",
     "csv-parse": "^5.5.0",
-    "eslint": "^8.0.0",
+    "eslint": "^10.0.0",
     "rollup": "^4.17.2",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-tsconfig-paths": "^1.0.4",
@@ -53,7 +54,7 @@
     "tsconfig-paths": "^4.2.0",
     "tslib": "^2.8.1",
     "tsx": "^4.21.0",
-    "typedoc": "^0.26.0",
+    "typedoc": "^0.28.17",
     "typescript": "^5.6.3",
     "vitest": "^4.0.17"
   }
