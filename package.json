@@ -1,6 +1,6 @@
 {
   "name": "mozithermodb-settings",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Shared TypeScript schemas and type definitions for thermodynamic models, units, and components used across the Mozi ecosystem. Provides strong typing and optional runtime validation for temperature, pressure, phase, and chemical component data.",
   "homepage": "https://github.com/sinagilassi/MoziThermoDB-Settings#readme",
   "bugs": {
