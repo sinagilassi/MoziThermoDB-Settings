@@ -63,9 +63,9 @@ describe("component id utils", () => {
 });
 
 describe("mixture utils", () => {
-  const water = { name: "Water", formula: "H2O", state: "l" as const };
-  const ethanol = { name: "Ethanol", formula: "C2H5OH", state: "l" as const };
-  const methanol = { name: "Methanol", formula: "CH3OH", state: "l" as const };
+  const water = { name: "Water", formula: "H2O", state: "l" as const, mole_fraction: 1 };
+  const ethanol = { name: "Ethanol", formula: "C2H5OH", state: "l" as const, mole_fraction: 1 };
+  const methanol = { name: "Methanol", formula: "CH3OH", state: "l" as const, mole_fraction: 1 };
 
   it("creates sorted binary mixture ids", () => {
     expect(create_binary_mixture_id(water, ethanol, "Name")).toBe("Ethanol|Water");
