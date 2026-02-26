@@ -16,12 +16,38 @@ import {
 } from "../types/components";
 
 export type CaseTransform = "lower" | "upper" | null;
+const BINARY_MIXTURE_KEYS: readonly BinaryMixtureKey[] = [
+  "Name",
+  "Formula",
+  "Name-Formula",
+  "Formula-Name",
+];
 
 const CaseTransformSchema = z.union([
   z.literal("lower"),
   z.literal("upper"),
   z.null(),
 ]);
+
+function create_binary_component_id_by_key(
+  comp: Component,
+  keyValue: BinaryMixtureKey,
+): string {
+  switch (keyValue) {
+    case "Name":
+      return comp.name.trim();
+    case "Formula":
+      return comp.formula.trim();
+    case "Name-Formula":
+      return `${comp.name.trim()}-${comp.formula.trim()}`;
+    case "Formula-Name":
+      return `${comp.formula.trim()}-${comp.name.trim()}`;
+    default:
+      throw new Error(
+        "component_key must be one of 'Name', 'Formula', 'Name-Formula', or 'Formula-Name'",
+      );
+  }
+}
 
 
 /**
@@ -121,15 +147,15 @@ export function set_component_id(
  * Components are sorted alphabetically before joining with the delimiter.
  * @param component_1 - The first component in the mixture
  * @param component_2 - The second component in the mixture
- * @param mixture_key - The key to use for identification: "Name" or "Formula" (default: "Name")
+ * @param mixture_key - The key to use for identification: "Name", "Formula", "Name-Formula", or "Formula-Name" (default: "Name")
  * @param delimiter - The delimiter to use between components (default: "|")
  * @returns A sorted, delimited mixture identifier string
  * @throws TypeError if delimiter is not a string
  * @throws Error if mixture_key is invalid
  */
 export function create_binary_mixture_id(
-  component_1: ComponentInput,
-  component_2: ComponentInput,
+  component_1: Component,
+  component_2: Component,
   mixture_key: BinaryMixtureKey = "Name",
   delimiter = "|",
 ): string {
@@ -143,13 +169,65 @@ export function create_binary_mixture_id(
 
   const key = BinaryMixtureKeySchema.safeParse(mixture_key);
   if (!key.success) {
-    throw new Error("component_key must be either 'Name' or 'Formula'");
+    throw new Error(
+      "component_key must be one of 'Name', 'Formula', 'Name-Formula', or 'Formula-Name'",
+    );
   }
 
-  const comp1_id = key.data === "Name" ? comp1.name.trim() : comp1.formula.trim();
-  const comp2_id = key.data === "Name" ? comp2.name.trim() : comp2.formula.trim();
+  const comp1_id = create_binary_component_id_by_key(comp1, key.data);
+  const comp2_id = create_binary_component_id_by_key(comp2, key.data);
 
   return [comp1_id, comp2_id].sort().join(parsed_delimiter).trim();
+}
+
+/**
+ * Infers the BinaryMixtureKey used to generate a binary mixture identifier.
+ * Tries all supported BinaryMixtureKey variants and matches against the input mixture_id.
+ * @param mixture_id - The binary mixture identifier to inspect
+ * @param components - The two components used to form the binary mixture
+ * @param delimiter - The delimiter used between components (default: "|")
+ * @returns The matching BinaryMixtureKey
+ * @throws TypeError if delimiter is not a string
+ * @throws Error if no key matches or if multiple keys match ambiguously
+ */
+export function infer_binary_mixture_key(
+  mixture_id: string,
+  components: Component[],
+  delimiter = "|",
+): BinaryMixtureKey {
+  const [component_1, component_2] = z
+    .tuple([ComponentSchema, ComponentSchema])
+    .parse(components);
+
+  if (typeof delimiter !== "string") {
+    throw new TypeError(ERRORS.delimiter_type);
+  }
+
+  const target_mixture_id = mixture_id.trim();
+  const parsed_delimiter = delimiter.trim();
+
+  const matches = BINARY_MIXTURE_KEYS.filter(
+    (key) =>
+      create_binary_mixture_id(component_1, component_2, key, parsed_delimiter) ===
+      target_mixture_id,
+  );
+
+  if (matches.length === 1) {
+    const [match] = matches;
+    if (match) {
+      return match;
+    }
+  }
+
+  if (matches.length > 1) {
+    throw new Error(
+      `Ambiguous binary mixture key for '${target_mixture_id}'. Matches: ${matches.join(", ")}`,
+    );
+  }
+
+  throw new Error(
+    `Could not infer binary mixture key for '${target_mixture_id}' using the provided components.`,
+  );
 }
 
 /**

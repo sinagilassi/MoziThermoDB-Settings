@@ -13,7 +13,7 @@ export const ComponentKeySchema = z.enum([
 ]);
 
 export const MixtureKeySchema = ComponentKeySchema;
-export const BinaryMixtureKeySchema = z.enum(["Name", "Formula"]);
+export const BinaryMixtureKeySchema = z.enum(["Name", "Formula", "Name-Formula", "Formula-Name"]);
 
 // NOTE: Component Schema
 export const ComponentSchema = z.looseObject({
