@@ -205,8 +205,8 @@ export function infer_binary_mixture_key(
 
   const matches = BINARY_MIXTURE_KEYS.filter(
     (key) =>
-      create_binary_mixture_id(component_1, component_2, key, parsed_delimiter) ===
-      target_mixture_id,
+      create_binary_mixture_id(component_1, component_2, key, parsed_delimiter).toLowerCase() ===
+      target_mixture_id.toLowerCase(),
   );
 
   if (matches.length === 1) {
