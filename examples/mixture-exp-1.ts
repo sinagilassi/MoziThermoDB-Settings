@@ -20,7 +20,7 @@ function runBinaryRoundTripExample(
         components[1],
         mixtureKey,
         delimiter,
-    );
+    ).toLowerCase();
 
     const inferredKey = infer_binary_mixture_key(mixtureId, components, delimiter);
 
@@ -31,9 +31,9 @@ function runBinaryRoundTripExample(
 }
 
 function main(): void {
-    const water: Component = {
-        name: "Water",
-        formula: "H2O",
+    const methanol: Component = {
+        name: "Methanol",
+        formula: "CH4O",
         state: "l",
         mole_fraction: 1
     };
@@ -45,11 +45,12 @@ function main(): void {
         mole_fraction: 1
     };
 
-    const components: Component[] = [water, ethanol];
+    const components: Component[] = [methanol, ethanol];
 
     printSection("Binary Mixture Create -> Reverse");
     runBinaryRoundTripExample("Name-Formula", components, "Name-Formula");
-    runBinaryRoundTripExample("Formula", components, "Formula", " | ");
+    runBinaryRoundTripExample("Formula", components, "Formula", "|");
+    runBinaryRoundTripExample("Name", components, "Name", "|");
 }
 
 main();
