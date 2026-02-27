@@ -19,8 +19,7 @@ export type CaseTransform = "lower" | "upper" | null;
 const BINARY_MIXTURE_KEYS: readonly BinaryMixtureKey[] = [
   "Name",
   "Formula",
-  "Name-Formula",
-  "Formula-Name",
+  "Name-Formula"
 ];
 
 const CaseTransformSchema = z.union([
@@ -40,8 +39,6 @@ function create_binary_component_id_by_key(
       return comp.formula.trim();
     case "Name-Formula":
       return `${comp.name.trim()}-${comp.formula.trim()}`;
-    case "Formula-Name":
-      return `${comp.formula.trim()}-${comp.name.trim()}`;
     default:
       throw new Error(
         "component_key must be one of 'Name', 'Formula', 'Name-Formula', or 'Formula-Name'",
