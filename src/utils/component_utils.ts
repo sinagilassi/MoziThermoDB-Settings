@@ -174,7 +174,8 @@ export function create_binary_mixture_id(
   const comp1_id = create_binary_component_id_by_key(comp1, key.data);
   const comp2_id = create_binary_component_id_by_key(comp2, key.data);
 
-  return [comp1_id, comp2_id].sort().join(parsed_delimiter).trim();
+  // res
+  return [comp1_id, comp2_id].join(parsed_delimiter).trim();
 }
 
 /**
